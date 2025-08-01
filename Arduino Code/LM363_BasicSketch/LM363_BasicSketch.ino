@@ -5,7 +5,7 @@
 
 // library import
 #include "TimerOne.h"
-#define pin 3
+#define pin 2
 
 // needed variables
 int interval, wheel, counter;
@@ -21,7 +21,7 @@ void setup()
  usInterval = interval * 1000000; // convert interval to micro
  // seconds
  wheel = wheel * 2; // number of encoder disc wholes times 2
- pinMode(pin, INPUT); // setting pin 2 as input
+ pinMode(pin, INPUT_PULLUP); // setting pin 2 as input
  Timer1.initialize(usInterval); // initialize timer with interval time
  attachInterrupt(digitalPinToInterrupt(pin), count, CHANGE);
  // executes count, if the level on pin 2 changes
