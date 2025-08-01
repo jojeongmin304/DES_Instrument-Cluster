@@ -1,6 +1,6 @@
 // library import
 #include "TimerOne.h"
-#define pin 3
+#define pin 2
 #include <mcp_can.h>
 #include <SPI.h>
 
@@ -9,6 +9,7 @@ MCP_CAN CAN0(10);     // Set CS to pin 10
 // needed variables
 int interval, wheel, counter;
 unsigned long previousMicros, usInterval, calc;
+byte data[8] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
 
 void setup()
 {
@@ -20,7 +21,7 @@ void setup()
  usInterval = interval * 1000000; // convert interval to micro
  // seconds
  wheel = wheel * 2; // number of encoder disc wholes times 2
- pinMode(pin, INPUT); // setting pin 2 as input
+ pinMode(pin, INPUT_PULLUP); // setting pin 2 as input
  Timer1.initialize(usInterval); // initialize timer with interval time
  attachInterrupt(digitalPinToInterrupt(pin), count, CHANGE);
  // executes count, if the level on pin 2 changes
@@ -43,16 +44,15 @@ void count(){
  }
 }
 
-byte data[8] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
-
 // output to serial
 void output(){
  Timer1.detachInterrupt(); // interrupts the timer
+
  Serial.print("Drehzahl pro Minute: ");
  int speed = ((counter)*calc) / wheel;
  // calculate round per minute
-
  Serial.println(speed);
+
  //Convert speed in byte form
  data[0] = highByte(speed);
  data[1] = lowByte(speed);
@@ -63,13 +63,13 @@ void output(){
 
 void loop(){
 
-byte sndStat = CAN0.sendMsgBuf(0x10, 0, 8, data);
+byte sndStat = CAN0.sendMsgBuf(0x10, 0, 2, data);
   if(sndStat == CAN_OK){
     Serial.println("Message Sent Successfully!");
   } else {
     Serial.println("Error Sending Message...");
   }
 
-  delay(100);   // send data per 100ms
+  delay(500);   // send data per 100ms
   
 }
