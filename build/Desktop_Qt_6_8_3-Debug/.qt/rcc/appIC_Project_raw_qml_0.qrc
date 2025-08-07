@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/IC_Project/">
-    <file alias="Main.qml">/home/jeongmin/IC_Project/Main.qml</file>
-  </qresource>
-</RCC>
-

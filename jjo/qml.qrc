@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>InstrumentCluster.qml</file>
+        <file>Gear.qml</file>
+    </qresource>
+</RCC>
