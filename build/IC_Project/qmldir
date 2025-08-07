@@ -1,5 +1,0 @@
-module IC_Project
-typeinfo appIC_Project.qmltypes
-prefer :/IC_Project/
-Main 1.0 Main.qml
-
