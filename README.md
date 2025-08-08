@@ -4,7 +4,7 @@ A hybrid Arduino and Python-based system for real-time sensor data acquisition, 
 
 ## Architecture
 
-![System Architecture](./Documentation/architecture.png)
+![System Architecture](DES_Instrument-Cluster/Documentation/Architecture.drawio.png)
 
 ## Features
 
