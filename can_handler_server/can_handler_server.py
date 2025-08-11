@@ -10,9 +10,7 @@ can_interface = 'can1'
 bitrate = 50000
 ensure_can_interface(can_interface, bitrate)
 
-
 bus = can.interface.Bus(can_interface, bustype='socketcan')
-
 
 
 # Clean up any existing socket file

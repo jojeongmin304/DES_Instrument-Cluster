@@ -1,0 +1,31 @@
+{
+	"BUILD_DIR" : "/Users/donghyun/All/seame/des_ic/build/appIC_Project_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/donghyun/All/seame/des_ic/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/donghyun/All/seame/des_ic/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/donghyun/All/seame/des_ic/jjo",
+	"CMAKE_SOURCE_DIR" : "/Users/donghyun/All/seame/des_ic/jjo",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "/Users/donghyun/All/seame/des_ic/build/appIC_Project_autogen/include",
+	"INPUTS" : 
+	[
+		"/Users/donghyun/All/seame/des_ic/jjo/BackGround.png",
+		"/Users/donghyun/All/seame/des_ic/jjo/LeftCircle.png",
+		"/Users/donghyun/All/seame/des_ic/jjo/needle-normal.png",
+		"/Users/donghyun/All/seame/des_ic/jjo/LeftOutCircle.png",
+		"/Users/donghyun/All/seame/des_ic/jjo/dial.png",
+		"/Users/donghyun/All/seame/des_ic/jjo/RightCircle.png",
+		"/Users/donghyun/All/seame/des_ic/jjo/RightOutCircle.png"
+	],
+	"LOCK_FILE" : "/Users/donghyun/All/seame/des_ic/build/CMakeFiles/appIC_Project_autogen.dir/AutoRcc_image_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "image" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_image.cpp",
+	"RCC_EXECUTABLE" : "/Users/donghyun/Qt/6.9.1/macos/libexec/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/Users/donghyun/All/seame/des_ic/build/CMakeFiles/appIC_Project_autogen.dir/AutoRcc_image_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/Users/donghyun/All/seame/des_ic/jjo/image.qrc",
+	"USE_BETTER_GRAPH" : true,
+	"VERBOSITY" : 0
+}
