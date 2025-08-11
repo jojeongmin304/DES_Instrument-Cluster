@@ -1,0 +1,10 @@
+-I
+/Users/donghyun/All/seame/des_ic/build
+-I
+/Users/donghyun/Qt/6.9.1/macos/qml
+--resource
+/Users/donghyun/All/seame/des_ic/build/.qt/rcc/qmake_IC_Project.qrc
+--resource
+/Users/donghyun/All/seame/des_ic/build/.qt/rcc/appIC_Project_raw_qml_0.qrc
+--module
+IC_Project
