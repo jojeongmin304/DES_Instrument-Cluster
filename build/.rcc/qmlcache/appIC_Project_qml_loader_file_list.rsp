@@ -1,9 +1,0 @@
---resource
-/Users/donghyun/All/seame/des_ic/build/.qt/rcc/qmake_IC_Project.qrc
---resource
-/Users/donghyun/All/seame/des_ic/build/.qt/rcc/appIC_Project_raw_qml_0.qrc
-/qt/qml/IC_Project/Main.qml
-/qt/qml/IC_Project/InstrumentCluster.qml
-/qt/qml/IC_Project/Gear.qml
-/qt/qml/IC_Project/LeftCluster.qml
-/qt/qml/IC_Project/RightCluster.qml
