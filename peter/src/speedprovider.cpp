@@ -1,35 +1,17 @@
-#include "speedprovider.h"
+#include "SpeedProvider.h"
 
-#include <QDebug> // For logging
+SpeedProvider::SpeedProvider()
+	: _speed(0) {}
 
-SpeedProvider::SpeedProvider(QObject *parent) : QObject(parent) {}
+SpeedProvider::SpeedProvider(QObject *parent = nullptr)
+    : QObject(parent), _speed(0) {}
 
-int SpeedProvider::speed() const {
-    return m_speed;
-}
+SpeedProvider::~SpeedProvider() {}
 
-void SpeedProvider::setSpeed(int speed) {
-    if (m_speed == speed)
-        return;
-    m_speed = speed;
-    emit speedChanged(); // Notify QML that the value has changed
-}
-
-// This is where the magic happens!
-void SpeedProvider::onMessageReceived(int id, int dlc, const QVariantList &data, double timestamp) {
-    // Let's assume CAN ID 0x180 is for vehicle speed and the value is in the first byte.
-    // This is just an example; you'll need to adapt it to your actual CAN data specification.
-    const int VEHICLE_SPEED_ID = 0x10;
-
-	// Log the entire received data list for debugging purposes
-    qDebug() << "Received CAN message data:" << data;
-
-    if (id == VEHICLE_SPEED_ID) {
-        if (!data.isEmpty()) {
-            int new_speed = data.last().toInt(); // Assuming the speed is in the last element of the list
-			
-            setSpeed(new_speed);
-        }
+void SpeedProvider::setSpeed(size_t val) {
+    if (_speed != val) {
+		_speed = val;
+		// Notify QML that the value has changed
+        emit speedChanged(); 
     }
-    // You can add more 'if' or 'switch' statements here to handle other CAN IDs.
 }
