@@ -1,41 +1,16 @@
 # DES Instrument Cluster
 
-A hybrid Arduino and Python-based system for real-time sensor data acquisition, CAN bus communication, and dynamic instrument display. This project is designed for robotics applications, featuring battery monitoring and control via onboard OLED display.
-
-## Architecture
-
-![System Architecture](Documentation/Architecture.drawio.png)
-
-## Features
-
-- **Arduino Firmware**
-  - Reads data from an Optocoupler Sensor.
-  - Utilizes Timer Interrupts and CAN communication.
-  - Sends sensor data to the CAN bus.
-
-- **Python CAN Handler**
-  - Creates a UNIX socket interface.
-  - Reads messages from the CAN bus.
-  - Forwards CAN messages to clients in JSON format.
-
-- **Systemd Service**
-  - Ensures Python scripts for robot control and battery display are started at boot.
-  - Automates startup for reliable operation.
+This project is a documentation of the fulfilment of the project requirements as requested from SEA:ME ![Github Link](https://github.com/SEA-ME/DES_Instrument-Cluster). 
 
 ## Directory Structure
 
 ```
 DES_Instrument-Cluster/
 ├── Arduino/
-│   ├── main.ino
-│   ├── timer_interrupt.h
-│   └── can.h
-├── Python/
-│   └── CAN_Handler.py
+│   ├── SpeedSensor_CAN
+|        └── SpeedSensor_CAN.ino
 ├── Documentation/
 │   └── architecture.png
-├── systemd/
-│   └── des_instrument.service
 └── README.md
 ```
 
@@ -43,20 +18,27 @@ DES_Instrument-Cluster/
 
 ### Prerequisites
 
-- Arduino IDE and compatible hardware
-- Python 3.7+
-- Linux system with systemd
-- CAN interface hardware (e.g., MCP2515)
+- For Speed Sensor Side:
+  * Himalaya Uno Rev 3 (or any Microcontroller Development Board of your choice e.g. Arduino Uno)
+  * LM363 Optocoupler Speed Sensor
+  * Keyestudio CAN Shield for Arduino Uno
+  * Arduino IDE
+  * TimerOne and CAN library from the Arduino IDE Library Manager
+- For Instrument Cluster Side:
+  * Raspberry Pi 4B
+  * SeedStudio CAN HAT for Raspberry Pi
+  * QT dependencies
+  * 7 inch LCD Display (either HDMI or DSI will do)
+ 
+## Architecture
+
+![System Architecture](Documentation/Architecture.drawio.png)
 
 ### Installation
 
 1. **Arduino Setup**
-   - Upload the Arduino code in `Arduino/` to your device.
-   - Ensure the timer and CAN headers are included.
-
-2. **Python CAN Handler**
-   - Install required Python packages (see `requirements.txt` if present).
-   - Configure CAN interface on your system.
+   - If not previously available, download the TimerOne and CAN library 
+   - Compile and Upload the Arduino code from `Arduino/SpeedSensor_CAN/SpeedSensor_CAN.ino` to your device using the Arduino IDE
 
 3. **Systemd Service**
    - Copy `systemd/des_instrument.service` to `/etc/systemd/system/`.
