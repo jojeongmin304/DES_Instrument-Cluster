@@ -20,8 +20,7 @@ int main(int argc, char *argv[]) {
 		// Once CanReceiver emit the newSpeed() signals, the speed setter may catch the signal and execute it
 		QObject::connect(&canRcv1, &CANReceiver::newSpeed,
 		&speedPrv, &SpeedProvider::setSpeed);
-        //batteryprovider이거도 추가해야하나?
-        //QObject::connect(&)
+
 		
 		// 3. Expose the instance of c++ to QML
 		engine.rootContext()->setContextProperty("speedController", &speedPrv);

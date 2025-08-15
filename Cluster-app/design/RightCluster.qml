@@ -42,7 +42,7 @@ Item {
             topMargin: parent.height * 0.1  // Relative positioning
         }
         color: "#d8d8d8"
-        text: qsTr("mAh")
+        text: qsTr("%")
         font.pixelSize: parent.height * 0.047  // Relative font size
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
