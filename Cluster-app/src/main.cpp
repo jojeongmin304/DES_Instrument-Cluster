@@ -1,5 +1,6 @@
 #include "CANReceiver.h"
 #include "SpeedProvider.h"
+#include "BatteryProvider.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -11,16 +12,20 @@ int main(int argc, char *argv[]) {
 
 	try {
 		// 1. Create the worker objects with CAN init and starting the QThread
-		SpeedProvider speedPrv; 
+        SpeedProvider speedPrv;
+        BatteryProvider batteryPrv;
 		CANReceiver canRcv1("can1"); 
 
 		// 2. Connect Receiver to speedPrv 
 		// Once CanReceiver emit the newSpeed() signals, the speed setter may catch the signal and execute it
 		QObject::connect(&canRcv1, &CANReceiver::newSpeed,
 		&speedPrv, &SpeedProvider::setSpeed);
+        //batteryprovider이거도 추가해야하나?
+        //QObject::connect(&)
 		
 		// 3. Expose the instance of c++ to QML
 		engine.rootContext()->setContextProperty("speedController", &speedPrv);
+        engine.rootContext()->setContextProperty("batteryController", &batteryPrv);
 		
 		// 4. Run the CANReceiver on the QTread
 		canRcv1.start();

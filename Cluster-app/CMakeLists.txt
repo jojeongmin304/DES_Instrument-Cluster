@@ -6,10 +6,10 @@ cmake_minimum_required(VERSION 3.16)
 project(IC_Project VERSION 0.1 LANGUAGES CXX)
 
 # Target and directory path variables
-set(TARGET_NAME ICApp)
+set(TARGET_NAME appIC)
 set(DIR_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(DIR_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(DIR_DESIGN ${CMAKE_CURRENT_SOURCE_DIR}/design)
+set(DIR_DESIGN ./design)
 
 # Use the C++17 standard
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -59,6 +59,12 @@ qt_add_qml_module(${TARGET_NAME}
     SOURCES
         ${DIR_SRC}/SpeedProvider.h ${DIR_SRC}/SpeedProvider.cpp
         ${DIR_SRC}/CANReceiver.h ${DIR_SRC}/CANReceiver.cpp
+        SOURCES src/INA219.h
+        SOURCES src/INA219.cpp
+        SOURCES src/BatterySoc.h
+        SOURCES src/BatterySoc.cpp
+        SOURCES src/BatteryProvider.h
+        SOURCES src/BatteryProvider.cpp
 )
 
 # Tell CMake where to find our own header files and the json.hpp header.

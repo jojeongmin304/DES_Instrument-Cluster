@@ -3,7 +3,7 @@ import QtQuick 2.15
 Item {
     id: rightcluster
 
-    property real capacity: 0
+    property int capacity: 0
 
     // Outer shadow circle
     Image {
