@@ -1,6 +1,14 @@
-.DS_Store
+# User-specific files
 .vscode
 *.user*
+*.ini
+
+# Build directories
 build
+
+# Only for macOS
+.DS_Store
 Makefile
 Dockerfile
+*toolchain*
+include 
