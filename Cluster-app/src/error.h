@@ -4,16 +4,20 @@
 # include <stdexcept>
 # include <string>
 
+# define ERR_COUNT 4
+
 enum error_e {
-	INIT_FAIL_DOMAIN_SOCKET,
-	INIT_FAIL_CAN_INTERFACE,
-	INIT_FAIL_BIND
+	ERR_INIT_FAIL_DOMAIN_SOCKET,
+	ERR_INIT_FAIL_CAN_INTERFACE,
+	ERR_INIT_FAIL_BIND,
+	ERR_INIT_FAIL_QTFRAME
 };
 
-const std::string error_message[3] = {
+const std::string error_message[ERR_COUNT] = {
 	"Failed to create domain socket",
 	"Failed to find CAN interface",
-	"Failed to bind CAN socket"
+	"Failed to bind CAN socket",
+	"Failed to initialize Qt framework"
 };
 
 class Error : public std::runtime_error {

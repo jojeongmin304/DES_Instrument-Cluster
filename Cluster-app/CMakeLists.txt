@@ -29,8 +29,9 @@ qt_standard_project_setup(REQUIRES 6.8)
 # We will now add the .qrc files directly here.
 qt_add_executable(${TARGET_NAME}
     ${DIR_SRC}/main.cpp
-    ${DIR_SRC}/SpeedProvider.cpp
-    ${DIR_SRC}/CANReceiver.cpp
+	${DIR_SRC}/InstrumentCluster.cpp
+    ${DIR_SRC}/ViewModel.cpp
+    ${DIR_SRC}/CANGateway.cpp
 
 	# ADDED: Directly add resource files to the executable.
 	# This is the most reliable way to ensure they are compiled in.
@@ -57,14 +58,9 @@ qt_add_qml_module(${TARGET_NAME}
 		${DIR_DESIGN}/asset/RightCircle.png
 		${DIR_DESIGN}/asset/RightOutCircle.png
     SOURCES
-        ${DIR_SRC}/SpeedProvider.h ${DIR_SRC}/SpeedProvider.cpp
-        ${DIR_SRC}/CANReceiver.h ${DIR_SRC}/CANReceiver.cpp
-        SOURCES src/INA219.h
-        SOURCES src/INA219.cpp
-        SOURCES src/BatterySoc.h
-        SOURCES src/BatterySoc.cpp
-        SOURCES src/BatteryProvider.h
-        SOURCES src/BatteryProvider.cpp
+        ${DIR_SRC}/InstrumentCluster.h ${DIR_SRC}/InstrumentCluster.cpp
+        ${DIR_SRC}/CANGateway.h ${DIR_SRC}/CANGateway.cpp
+		${DIR_SRC}/ViewModel.h ${DIR_SRC}/ViewModel.cpp
 )
 
 # Tell CMake where to find our own header files and the json.hpp header.
