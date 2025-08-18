@@ -6,6 +6,23 @@ Item {
 
     property real speed: 0
 
+    //화면에 부드럽게 표시될 값
+    property real displayedSpeed: 0
+
+    // 숫자 변화를 부드럽게 만들어주는 애니메이션 객체
+    NumberAnimation on displayedSpeed {
+        id: smoothAnimation
+        duration: 1000 // 1초 동안 부드럽게 변화
+        easing.type: Easing.InOutQuad // 시작과 끝을 부드럽게 처리
+    }
+
+    // speed 속성(실제 값)이 변경될 때마다 자동으로 호출됨
+    onSpeedChanged: {
+        smoothAnimation.from = displayedSpeed // 현재 표시되는 값에서 시작
+        smoothAnimation.to = speed           // 새로운 목표 값으로 이동
+        smoothAnimation.start()              // 애니메이션 시작!
+    }
+
     // Outer shadow circle
     Image {
         id: leftOutCircle
@@ -30,7 +47,7 @@ Item {
         anchors.centerIn: parent
         color: "#ffffff"
         font.pixelSize: parent.height * 0.1  // Relative font size
-        text: Math.round(speed)
+        text: Math.floor(displayedSpeed)
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.bold: true
