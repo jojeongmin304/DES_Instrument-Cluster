@@ -3,7 +3,7 @@ import QtQuick 2.15
 Item {
     // Remove fixed dimensions, let it scale with parent
     property real actualSpeed: speedController.speed
-    property real actualCapacity: 1000
+    property real actualCapacity: batteryController.capacity
 
     Image {
         id: backGround

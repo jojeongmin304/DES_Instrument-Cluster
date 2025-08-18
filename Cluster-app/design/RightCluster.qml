@@ -3,7 +3,7 @@ import QtQuick 2.15
 Item {
     id: rightcluster
 
-    property real capacity: 0
+    property int capacity: 0
 
     // Outer shadow circle
     Image {
@@ -42,7 +42,7 @@ Item {
             topMargin: parent.height * 0.1  // Relative positioning
         }
         color: "#d8d8d8"
-        text: qsTr("mAh")
+        text: qsTr("%")
         font.pixelSize: parent.height * 0.047  // Relative font size
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
