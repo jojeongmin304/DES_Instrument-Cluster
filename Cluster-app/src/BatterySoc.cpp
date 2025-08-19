@@ -24,11 +24,15 @@ void BatterySOC::initializeDefaultTable() {
     // Default voltage to SoC lookup table for 1 lithium-ion cell
     // Values based on typical Li-ion discharge curve
     voltage_soc_table_ = {
-        {4.20, 100.0},
-        {4.10, 90.0},
+        {4.145, 100.0},
+        {4.10, 93.0},
+        {4.05, 85.0},
         {4.00, 80.0},
-        {3.90, 60.0},
-        {3.80, 40.0},
+        {3.95, 70.0},
+        {3.87, 60.0},
+        {3.82, 50.0},
+        {3.79, 40.0},
+        {3.75, 30.0},
         {3.70, 20.0},
         {3.60, 10.0},
         {3.50, 0.0}

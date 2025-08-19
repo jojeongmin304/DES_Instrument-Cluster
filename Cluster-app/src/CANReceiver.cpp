@@ -70,9 +70,9 @@ void CANReceiver::run() {
 
 void CANReceiver::_runHandleData(const can_frame& frame) {
 	// Display all the received information
-	qDebug() << "[Receiver] Frame Received - ID:" << Qt::hex << frame.can_id
-		     << "/ Len:" << frame.len
-		     << "/ Data:" << QByteArray(reinterpret_cast<const char*>(frame.data), frame.len).toHex(' ');
+    //qDebug() << "[Receiver] Frame Received - ID:" << Qt::hex << frame.can_id
+    //	     << "/ Len:" << frame.len
+    //	     << "/ Data:" << QByteArray(reinterpret_cast<const char*>(frame.data), frame.len).toHex(' ');
 
 	// Handle the data sent from Arduino
 	switch (frame.can_id) {
