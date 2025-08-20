@@ -9,18 +9,31 @@ Item {
     //화면에 부드럽게 표시될 값
     property real displayedSpeed: 0
 
+    //튜닝 파라미터
+    property int shortDuration: 100
+    property int longDuration: 500
+    property real decelThreshold: 150.0 //큰 감속으로 볼 변화량
+    property int chosenDuration: longDuration
+
     // 숫자 변화를 부드럽게 만들어주는 애니메이션 객체
-    NumberAnimation on displayedSpeed {
-        id: smoothAnimation
-        duration: 1000 // 1초 동안 부드럽게 변화
-        easing.type: Easing.InOutQuad // 시작과 끝을 부드럽게 처리
+    Behavior on displayedSpeed {
+        NumberAnimation {
+            id: smoothAnimation
+            duration: leftcluster.chosenDuration
+            easing.type: Easing.InOutQuad // 시작과 끝을 부드럽게 처리
+            alwaysRunToEnd: false //새 값 오면 애니메이션 즉시 중단
+        }
     }
 
     // speed 속성(실제 값)이 변경될 때마다 자동으로 호출됨
     onSpeedChanged: {
-        smoothAnimation.from = displayedSpeed // 현재 표시되는 값에서 시작
-        smoothAnimation.to = speed           // 새로운 목표 값으로 이동
-        smoothAnimation.start()              // 애니메이션 시작!
+        const d = Math.abs(speed - displayedSpeed)
+        const decel = speed < displayedSpeed
+        // 큰 감속이면 짧은 애니메이션, 그 외엔 긴 애니메이션
+        chosenDuration = (decel && d >= decelThreshold) ? shortDuration : longDuration
+
+        // Behavior가 알아서 현재→목표로 애니메이션하므로 start()/from/to 필요 없음
+        displayedSpeed = speed             // 애니메이션 시작!
     }
 
     // Outer shadow circle

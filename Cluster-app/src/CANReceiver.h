@@ -24,7 +24,7 @@ enum canID_e {
 
 class CANReceiver : public QThread {
     Q_OBJECT
-    Q_PROPERTY(float speed READ speed NOTIFY newSpeed)
+    Q_PROPERTY(int speed READ speed NOTIFY newSpeed)
 
 	public:
 		struct CANSocket {
@@ -44,7 +44,7 @@ class CANReceiver : public QThread {
 		CANReceiver(const std::string&);
 		~CANReceiver();
 		
-		inline size_t speed() const { return _speed; }
+		inline int speed() const { return _speed; }
 		
 	protected:
 		// When QThread starts, this function runs in a separate thread.
