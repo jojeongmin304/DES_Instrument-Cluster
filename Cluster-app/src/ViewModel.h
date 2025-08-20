@@ -1,6 +1,8 @@
 #ifndef VIEWMODEL_H
 # define VIEWMODEL_H
 
+# include "BatteryMonitor.h"
+
 # include <QObject>
 # include <QTimer>
 # include <QByteArray>
@@ -14,13 +16,16 @@ enum canID_e {
 
 class ViewModel : public QObject {
 	/* QT FRAMEWORK */
-    Q_OBJECT
+	Q_OBJECT
+	Q_PROPERTY(int capacity READ capacity NOTIFY updateCapacity)
 	Q_PROPERTY(int speed READ speed NOTIFY updateSpeed)
 
 	public slots:  
-		void receiveData(int, const QByteArray&);
+		void receiveTimeout(const std::string&);
+		void receiveCanData(int, const QByteArray&);
 
 	signals:
+		void updateCapacity();
 		void updateSpeed();
 
 	/* CLASS */
@@ -28,10 +33,14 @@ class ViewModel : public QObject {
 		explicit ViewModel(QObject* parent = nullptr);
 		~ViewModel();
 
+		int capacity() const { return _capacity; } 
 		int speed() const { return _speed; } 
 
 	private:
-		int _speed; // Centimeters per second
+		BatteryMonitor _battery;
+		int _capacity = 0;
+
+		int _speed = 0; // Centimeters per second
 		
 		int _int(const QByteArray&, int) const;
 		// float _float(const QByteArray&, size_t) const;

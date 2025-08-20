@@ -3,15 +3,24 @@
 #include <QDebug>
 #include <cstring>
 
+#include <iostream>
+
 ViewModel::ViewModel(QObject *parent)
-: QObject(parent), _speed(0) {}
+	: QObject(parent), _battery() {}
 
 ViewModel::~ViewModel() {}
 
 /* QT METHODS */
-void ViewModel::receiveData(int canID, const QByteArray& data) {
-	qDebug() << "[ViewModel] Received CAN frame - ID:" << Qt::hex << canID 
-			 << "Data:" << data.toHex(' ') << "Size:" << data.size();
+void ViewModel::receiveTimeout(const std::string& name) {
+	if (name == "battery") {
+		_capacity = _battery.getSoc();
+		emit updateCapacity();
+	}
+}
+
+void ViewModel::receiveCanData(int canID, const QByteArray& data) {
+	// qDebug() << "[ViewModel] Received CAN frame - ID:" << Qt::hex << canID 
+	// 		<< "Data:" << data.toHex(' ') << "Size:" << data.size();
 	
 	switch (canID) {
 		case ID_RPM: {
@@ -43,5 +52,5 @@ int ViewModel::_int(const QByteArray& data, int pos = 0) const {
 	
 	// Parse as big-endian 16-bit integer
 	return (static_cast<unsigned char>(data[pos]) << 8) | 
-		    static_cast<unsigned char>(data[pos + 1]);
+			static_cast<unsigned char>(data[pos + 1]);
 }

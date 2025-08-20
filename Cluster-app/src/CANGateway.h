@@ -19,10 +19,7 @@
 #  define PF_CAN AF_CAN
 # endif
 
-// MS
-# define CLOSE_WAIT 5000 
-# define FORCE_WAIT 1000
-# define INTERVAL 10
+# define INTERVAL 10 // ms
 
 enum status_e {
 	INIT,
