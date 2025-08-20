@@ -7,7 +7,7 @@ Item {
 
     Image {
         id: backGround
-        source: "qrc:/asset/BackGround.png"
+        source: "../build/Desktop_Qt_6_8_3-Debug/IC_Project/design/asset/BackGround.png"
         anchors.fill: parent
         fillMode: Image.PreserveAspectFit
     }
