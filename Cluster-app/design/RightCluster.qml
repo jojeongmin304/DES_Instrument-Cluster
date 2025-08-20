@@ -9,7 +9,7 @@ Item {
     Image {
         id: rightOutCircle
         anchors.fill: parent
-        source: "qrc:/asset/RightOutCircle.png"
+        source: "../build/Desktop_Qt_6_8_3-Debug/IC_Project/design/asset/RightOutCircle.png"
         fillMode: Image.PreserveAspectFit
     }
 
@@ -19,7 +19,7 @@ Item {
         width: parent.width * 0.61   // 490/800 ≈ 0.61
         height: parent.height * 0.65 // 485/750 ≈ 0.65
         anchors.centerIn: parent
-        source: "qrc:/asset/RightCircle.png"
+        source: "../build/Desktop_Qt_6_8_3-Debug/IC_Project/design/asset/RightCircle.png"
         fillMode: Image.PreserveAspectFit
     }
 

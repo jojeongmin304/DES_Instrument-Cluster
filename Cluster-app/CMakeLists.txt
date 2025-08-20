@@ -56,6 +56,7 @@ qt_add_qml_module(${TARGET_NAME}
 		${DIR_DESIGN}/asset/needle-normal.png
 		${DIR_DESIGN}/asset/RightCircle.png
 		${DIR_DESIGN}/asset/RightOutCircle.png
+                ${DIR_DESIGN}/asset/Gear.png
     SOURCES
         ${DIR_SRC}/SpeedProvider.h ${DIR_SRC}/SpeedProvider.cpp
         ${DIR_SRC}/CANReceiver.h ${DIR_SRC}/CANReceiver.cpp
