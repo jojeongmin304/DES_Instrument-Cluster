@@ -19,7 +19,8 @@ Item {
         width: 450
         height: 380
         anchors.centerIn: parent
-        source: "../build/Desktop_Qt_6_8_3-Debug/IC_Project/design/asset/Gear.png"
+
+        source: "qrc:/asset/Gear.png"
         fillMode: Image.PreserveAspectFit
     }
 
