@@ -3,7 +3,7 @@
 *.user*
 *.ini
 
-# Build directories
+# Build directory
 build
 
 # Only for macOS

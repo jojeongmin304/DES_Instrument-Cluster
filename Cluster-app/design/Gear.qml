@@ -19,6 +19,7 @@ Item {
         width: 450
         height: 380
         anchors.centerIn: parent
+
         source: "qrc:/asset/Gear.png"
         fillMode: Image.PreserveAspectFit
     }

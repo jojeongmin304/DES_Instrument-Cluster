@@ -58,6 +58,7 @@ qt_add_qml_module(${TARGET_NAME}
 		${DIR_DESIGN}/asset/needle-normal.png
 		${DIR_DESIGN}/asset/RightCircle.png
 		${DIR_DESIGN}/asset/RightOutCircle.png
+                ${DIR_DESIGN}/asset/Gear.png
     SOURCES
         ${DIR_SRC}/InstrumentCluster.h ${DIR_SRC}/InstrumentCluster.cpp
 		${DIR_SRC}/ViewModel.h ${DIR_SRC}/ViewModel.cpp
