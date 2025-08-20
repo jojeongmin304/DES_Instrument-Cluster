@@ -63,8 +63,8 @@ void CANReceiver::run() {
     while (_isRunning) {
         if (read(_can.socket, &frame, sizeof(struct can_frame)) > 0)
 			_runHandleData(frame);
-        else
-            msleep(20); // Set interval
+        // else
+        //     msleep(20); // Set interval 
     }
 }
 
@@ -80,7 +80,7 @@ void CANReceiver::_runHandleData(const can_frame& frame) {
 			if (frame.len > 1) {
 				float val = static_cast<float>((frame.data[0] << 8) | frame.data[1]); // RPM
 				float speed = WHEEL_DIAMETER * PI * val / 60.0f; 
-				emit newSpeed(static_cast<size_t>(speed));
+				emit newSpeed(static_cast<int>(speed));
 			} break;
 		}
 		default: qDebug() << "[Receiver] Unreserved can_id has sent: " << Qt::hex << frame.can_id;
