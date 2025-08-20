@@ -19,7 +19,11 @@ Item {
         width: 450
         height: 380
         anchors.centerIn: parent
+<<<<<<< HEAD
         source: "qrc:/asset/Gear.png"
+=======
+        source: "../build/Desktop_Qt_6_8_3-Debug/IC_Project/design/asset/Gear.png"
+>>>>>>> 9a068c1 (add gear animation)
         fillMode: Image.PreserveAspectFit
     }
 
