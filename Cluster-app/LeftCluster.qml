@@ -10,8 +10,8 @@ Item {
     property real displayedSpeed: 0
 
     //튜닝 파라미터
-    property int shortDuration: 100
-    property int longDuration: 500
+    property int shortDuration: 200
+    property int longDuration: 700
     property real decelThreshold: 150.0 //큰 감속으로 볼 변화량
     property int chosenDuration: longDuration
 
