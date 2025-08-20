@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.16)
 project(IC_Project VERSION 0.1 LANGUAGES CXX)
 
 # Target and directory path variables
-set(TARGET_NAME appIC)
+set(TARGET_NAME appIC_new)
 set(DIR_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(DIR_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(DIR_DESIGN ./design)
@@ -51,6 +51,7 @@ qt_add_qml_module(${TARGET_NAME}
         ${DIR_DESIGN}/RightCluster.qml
 	RESOURCES
 		${DIR_DESIGN}/asset/dial.png
+		${DIR_DESIGN}/asset/Gear.png
 		${DIR_DESIGN}/asset/BackGround.png
 		${DIR_DESIGN}/asset/LeftCircle.png
 		${DIR_DESIGN}/asset/LeftOutCircle.png
@@ -59,8 +60,11 @@ qt_add_qml_module(${TARGET_NAME}
 		${DIR_DESIGN}/asset/RightOutCircle.png
     SOURCES
         ${DIR_SRC}/InstrumentCluster.h ${DIR_SRC}/InstrumentCluster.cpp
-        ${DIR_SRC}/CANGateway.h ${DIR_SRC}/CANGateway.cpp
 		${DIR_SRC}/ViewModel.h ${DIR_SRC}/ViewModel.cpp
+		${DIR_SRC}/BatteryMonitor.h ${DIR_SRC}/BatteryMonitor.cpp
+		${DIR_SRC}/BatterySoc.h ${DIR_SRC}/BatterySoc.cpp
+		${DIR_SRC}/INA219.h ${DIR_SRC}/INA219.cpp
+        ${DIR_SRC}/CANGateway.h ${DIR_SRC}/CANGateway.cpp
 )
 
 # Tell CMake where to find our own header files and the json.hpp header.

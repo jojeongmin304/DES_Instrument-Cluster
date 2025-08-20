@@ -7,10 +7,10 @@
 
 /* CON & DESTRUNTOR */
 CANGateway::CANGateway(QObject *parent)
-: QObject(parent), status(INIT) {}
+	: QObject(parent), status(INIT) {}
 
 CANGateway::CANGateway(const std::string& interface)
-: QObject(nullptr), ifname(interface), status(INIT) {
+	: QObject(nullptr), ifname(interface), status(INIT) {
 	_init();
 }
 
@@ -51,10 +51,10 @@ void CANGateway::start() {
 }
 
 void CANGateway::_startHandleData(const can_frame& frame) {
-	qDebug() << "[Gateway] Frame Received on" << QString::fromStdString(ifname) 
-			 << "- ID:" << Qt::hex << frame.can_id
-		     << ", Len:" << frame.can_dlc
-		     << ", Data:" << QByteArray(reinterpret_cast<const char*>(frame.data), frame.can_dlc).toHex(' ');
+	// qDebug() << "[Gateway] Frame Received on" << QString::fromStdString(ifname) 
+	// 		 << "- ID:" << Qt::hex << frame.can_id
+	// 	     << ", Len:" << frame.can_dlc
+	// 	     << ", Data:" << QByteArray(reinterpret_cast<const char*>(frame.data), frame.can_dlc).toHex(' ');
 
 	// Create QByteArray from raw CAN frame data
 	QByteArray frameData(reinterpret_cast<const char*>(frame.data), frame.can_dlc);

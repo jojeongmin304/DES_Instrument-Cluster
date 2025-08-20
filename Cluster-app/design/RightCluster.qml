@@ -39,7 +39,7 @@ Item {
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.verticalCenter
-            topMargin: parent.height * 0.1  // Relative positioning
+            // topMargin: parent.height * 0.1  // Relative positioning
         }
         color: "#d8d8d8"
         text: qsTr("%")
