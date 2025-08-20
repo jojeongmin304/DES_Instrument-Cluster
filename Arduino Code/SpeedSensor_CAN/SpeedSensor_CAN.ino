@@ -67,6 +67,6 @@ void loop(){
   Serial.println("Error Sending Message...");
   }
 
-  delay(100);   // send data per 100ms
+  //delay(100);   // send data per 100ms
 
 }
