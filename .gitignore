@@ -3,11 +3,7 @@
 *.user*
 *.ini
 
-<<<<<<< HEAD
-# Build directories
-=======
 # Build directory
->>>>>>> 4ae6ebd (overwrite origin project to newer one)
 build
 
 # Only for macOS
