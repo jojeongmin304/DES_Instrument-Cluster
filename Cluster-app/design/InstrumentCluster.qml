@@ -2,8 +2,13 @@ import QtQuick 2.15
 
 Item {
     // Remove fixed dimensions, let it scale with parent
+<<<<<<< HEAD
     property int actualSpeed: ViewModel.speed
     property int actualCapacity: ViewModel.capacity
+=======
+    property int actualSpeed: speedController.speed
+    property int actualCapacity: batteryController.capacity
+>>>>>>> 4ae6ebd (overwrite origin project to newer one)
 
     Image {
         id: backGround
