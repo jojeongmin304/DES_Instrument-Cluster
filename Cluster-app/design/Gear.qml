@@ -1,10 +1,7 @@
 import QtQuick 2.15
 
 Item {
-    id: gear
-
-    width: gearBackground.width
-    height: gearBackground.height
+    id: gearRoot
 
     property string gear: "D"
 
@@ -16,10 +13,7 @@ Item {
 
     Image {
         id: gearBackground
-        width: 450
-        height: 380
-        anchors.centerIn: parent
-
+        anchors.fill: parent
         source: "qrc:/asset/Gear.png"
         fillMode: Image.PreserveAspectFit
     }
@@ -27,9 +21,9 @@ Item {
     Text {
         id: gearText
         anchors.centerIn: parent
-        color: baseColor
-        text: gear  //기어 표시
-        font.pixelSize: parent.height * 0.2
+        color: gearRoot.baseColor
+        text: gearRoot.gear  //기어 표시
+        font.pixelSize: parent.height * 0.3
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.bold: false
@@ -40,10 +34,10 @@ Item {
 
     SequentialAnimation {
         id: flash
-        running: false
+        running: true
         loops: 1
         //즉시 진한 흰색으로
-        PropertyAction { target: gearText; property: "color"; value: highlightColor }
+        PropertyAction { id: propertyAction; target: gearText; property: "color"; value: highlightColor }
         //잠깐 유지
         PauseAnimation { duration: holdMs }
         // 서서히 연한 색으로 복귀

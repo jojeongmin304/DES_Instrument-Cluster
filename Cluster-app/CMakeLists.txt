@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.16)
 project(IC_Project VERSION 0.1 LANGUAGES CXX)
 
 # Target and directory path variables
-set(TARGET_NAME appIC_new)
+set(TARGET_NAME appIC)
 set(DIR_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(DIR_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(DIR_DESIGN ./design)

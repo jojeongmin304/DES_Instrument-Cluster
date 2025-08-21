@@ -25,14 +25,14 @@ CanGateway::~CanGateway() {
 /* QT METHODS */
 void CanGateway::start() {
 	if (status != READY) {
-		qDebug() << "[Gateway] Interface not ready:" << QString::fromStdString(ifname);
+		qDebug() << "[CAN] Interface not ready:" << QString::fromStdString(ifname);
 		emit finished();
 		return;
 	} 
 
 	// Start processing CAN data
 	can_frame frame;
-	qDebug() << "[Gateway] Started processing on interface" << QString::fromStdString(ifname) << "...";
+	qDebug() << "[CAN] Thread started on interface" << QString::fromStdString(ifname) << "...";
 
 	status = ACTIVE;
 	emit connected();
@@ -45,13 +45,13 @@ void CanGateway::start() {
     }
 
 	// Processing loop finished
-	qDebug() << "[Gateway] Processing loop finished for" << QString::fromStdString(ifname);
+	qDebug() << "[CAN] Thread finished on interface" << QString::fromStdString(ifname);
 	emit disconnected();
 	emit finished();
 }
 
 void CanGateway::_startHandleData(const can_frame& frame) {
-	// qDebug() << "[Gateway] Frame Received on" << QString::fromStdString(ifname) 
+	// qDebug() << "[CAN] Frame Received on" << QString::fromStdString(ifname) 
 	// 		 << "- ID:" << Qt::hex << frame.can_id
 	// 	     << ", Len:" << frame.can_dlc
 	// 	     << ", Data:" << QByteArray(reinterpret_cast<const char*>(frame.data), frame.can_dlc).toHex(' ');
@@ -64,12 +64,12 @@ void CanGateway::_startHandleData(const can_frame& frame) {
 
 void CanGateway::stop() {
 	status = STOP;
-	qDebug() << "[Gateway] Stopping CAN gateway for" << QString::fromStdString(ifname);
+	qDebug() << "[CAN] Stopping CAN gateway for" << QString::fromStdString(ifname);
 }
 
 /* CLASS METHODS */
 void CanGateway::_init() {
-    qDebug() << "[Gateway] Initializing CAN interface" << QString::fromStdString(ifname) << "...";
+    qDebug() << "[CAN] Initializing CAN interface" << QString::fromStdString(ifname) << "...";
 
 	try {
 		_initDomainSocket();
@@ -77,11 +77,11 @@ void CanGateway::_init() {
 		_initBind();
 
 		status = READY;
-		qDebug() << "[Gateway] CAN interface" << QString::fromStdString(ifname) << "ready.";
+		qDebug() << "[CAN] CAN interface" << QString::fromStdString(ifname) << "ready.";
 		
 	} catch (const std::exception& e) {
 		status = FAULT;
-		qCritical() << "[Gateway] Initialization failed for" 
+		qCritical() << "[CAN] Initialization failed for" 
 			        << QString::fromStdString(ifname) << ":" << e.what();
 		throw;
 	}

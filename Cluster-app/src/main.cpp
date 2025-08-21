@@ -11,17 +11,12 @@ int main(int argc, char *argv[]) {
 		InstrumentCluster cluster;
 		ViewModel model;
 
-		qDebug() << "1";
 		const std::shared_ptr<SharedMemory>& vehicle = cluster.getVehicle();
-		qDebug() << "2";
 		if (vehicle && vehicle->isValid()) {
-			qDebug() << "3";
 			model.setVehicle(vehicle);
 
-			qDebug() << "4";
-			cluster.setTimer("drivemod");
+			cluster.setTimer("drivemode");
 			cluster.connectTimerModel("drivemode", 300, model, &ViewModel::receiveTimeout);
-			qDebug() << "5";
 		}
 		
 		const std::shared_ptr<BatteryMonitor>& battery = cluster.getBattery();

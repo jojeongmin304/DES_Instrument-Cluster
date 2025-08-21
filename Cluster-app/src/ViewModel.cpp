@@ -30,7 +30,6 @@ void ViewModel::receiveTimeout(const std::string& name) {
 		}
 
 		case ID_DRIVE_MODE: {
-			qDebug() << "receiving timeout";
 			_driveMode = drive_mode_alpha_map.at(_getDriveMode());
 			emit updateDriveMode();
 			break;
@@ -86,12 +85,8 @@ int ViewModel::_int(const QByteArray& data, int pos = 0) const {
 }
 
 ViewModel::drive_mode_e ViewModel::_getDriveMode() const {
-	qDebug() << "5";
 	int* data = static_cast<int*>(_vehicle->getMemoryPtr());
-	qDebug() << "6";
 	if (data) {
-		qDebug() << "7";
-		qDebug() << "access to shared memory success";
 		int mode = *data;
 		
 		if (mode < NEUTRAL || mode > PARKING) {

@@ -28,6 +28,7 @@ InstrumentCluster::~InstrumentCluster() {
 void InstrumentCluster::setTimer(const std::string& name) {
 	auto it = _timers.find(name);
 	if (_validTimer(it, 0)) {
+		qDebug() << "[IC] Setting timer for" << QString::fromStdString(name);
 		// Create QTimer with unique_ptr to avoid copy/move issues
 		_timers[name] = std::make_unique<QTimer>();
 	}
@@ -54,12 +55,12 @@ void InstrumentCluster::connectTimerModel(const std::string& name, int time, Vie
 
 bool InstrumentCluster::_validTimer(std::unordered_map<std::string, std::unique_ptr<QTimer>>::iterator it, int flag) {
 	if (flag == 0 && it != _timers.end()) {
-		qDebug() << "[IC] Timer already exist for name " << QString::fromStdString(it->first);
+		qDebug() << "[IC] Timer already exist";
 		return false;
 	} else if (flag == 1 && it == _timers.end()) {
-		qDebug() << "[IC] Timer not found for name " << QString::fromStdString(it->first);
+		qDebug() << "[IC] Timer not found";
 		return false;
-	}      
+	}
 	return true;
 }
 
@@ -164,7 +165,6 @@ void InstrumentCluster::connectCanModel(const std::string& interface, ViewModel&
 	
 	// Connect the single SIGNAL to ViewModel's SLOT
 	QObject::connect(gateway.get(), &CanGateway::newData, &model, slot, Qt::QueuedConnection);
-	qInfo() << "[IC] Connected CAN Gateway" << QString::fromStdString(interface) << "to ViewModel.";
 }
 
 const InstrumentCluster::CanGateway_ptr&

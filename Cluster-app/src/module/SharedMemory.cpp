@@ -1,7 +1,5 @@
 #include "SharedMemory.h"
 
-#include <iostream>
-
 SharedMemory::SharedMemory(const std::string& name, size_t size, bool create_mode)
     : shm_name("/" + name), shm_size(size), shm_fd(-1), shm_ptr(nullptr), created_by_this(false) {
     
