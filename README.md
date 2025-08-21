@@ -13,6 +13,8 @@ This project is a documentation of the fulfilment of the project requirements as
 │   ├── design
 │   │   └── asset
 │   └── src
+│       └── module
+├── Controller
 └── Documentation
 ```
 
