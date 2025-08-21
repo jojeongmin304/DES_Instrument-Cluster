@@ -71,7 +71,7 @@ Item {
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.verticalCenter
-            // topMargin: parent.height * 0.11  // Relative positioning below center
+            topMargin: parent.height * 0.11  // Relative positioning below center
         }
         color: "#d7d8d9"
         text: qsTr("cm/s")
