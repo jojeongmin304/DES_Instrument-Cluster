@@ -23,10 +23,11 @@ class BatteryMonitor : public INA219, public BatterySOC {
 		~BatteryMonitor();
 
 		int getSoc();
+		bool isConnected();
 
 	private:
 		INA219 _chip;
-		BatterySOC _battery;
+		BatterySOC _converter;
 
 		std::deque<float> _vrecord;
 		float _sum = 0, _average = 0;

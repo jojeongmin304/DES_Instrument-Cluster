@@ -1,20 +1,41 @@
 #include "ViewModel.h"
 
 #include <QDebug>
-#include <cstring>
 
-#include <iostream>
+const std::unordered_map<std::string, ViewModel::timer_id_e> ViewModel::timer_name_id_map = {
+	{"battery", ID_BATTERY},
+	{"drivemode", ID_DRIVE_MODE}
+};
 
+const std::unordered_map<ViewModel::drive_mode_e, QString> ViewModel::drive_mode_alpha_map = {
+	{NEUTRAL,	"N"},
+	{DRIVE,		"D"},
+	{REVERSE,	"R"},
+	{PARKING,	"P"}
+};
+
+/* CON & DESTRUCTOR */
 ViewModel::ViewModel(QObject *parent)
-	: QObject(parent), _battery() {}
+	: QObject(parent) {}
 
 ViewModel::~ViewModel() {}
 
 /* QT METHODS */
 void ViewModel::receiveTimeout(const std::string& name) {
-	if (name == "battery") {
-		_capacity = _battery.getSoc();
-		emit updateCapacity();
+	switch (timer_name_id_map.at(name)) {
+		case ID_BATTERY: {
+			_capacity = _battery->getSoc();
+			emit updateCapacity();
+			break;
+		}
+
+		case ID_DRIVE_MODE: {
+			_driveMode = drive_mode_alpha_map.at(_getDriveMode());
+			emit updateDriveMode();
+			break;
+		}
+
+		default: qWarning() << "[IC] Unreserved TIMER_ID received";
 	}
 }
 
@@ -40,11 +61,19 @@ void ViewModel::receiveCanData(int canID, const QByteArray& data) {
 			break;
 		}
 
-		default: qDebug() << "[ViewModel] Unreserved CAN ID received:" << Qt::hex << canID;
+		default: qDebug() << "[ViewModel] Unreserved CAN_ID received:" << Qt::hex << canID;
 	}
 }
 
 /* CLASS METHODS */
+void ViewModel::setVehicle(const std::shared_ptr<SharedMemory>& ptr) {
+	_vehicle = ptr;	
+}
+
+void ViewModel::setBattery(const std::shared_ptr<BatteryMonitor>& ptr) {
+	_battery = ptr;	
+}
+
 int ViewModel::_int(const QByteArray& data, int pos = 0) const {
 	if (pos + 1 >= data.size()) {
 		return 0;
@@ -53,4 +82,18 @@ int ViewModel::_int(const QByteArray& data, int pos = 0) const {
 	// Parse as big-endian 16-bit integer
 	return (static_cast<unsigned char>(data[pos]) << 8) | 
 			static_cast<unsigned char>(data[pos + 1]);
+}
+
+ViewModel::drive_mode_e ViewModel::_getDriveMode() const {
+	int* data = static_cast<int*>(_vehicle->getMemoryPtr());
+	if (data) {
+		int mode = *data;
+		
+		if (mode < NEUTRAL || mode > PARKING) {
+			qWarning() << "[ViewModel] Invalid drive mode value from shared memory:" << mode;
+		} else {
+			return static_cast<drive_mode_e>(mode);
+		}
+	}
+    return NEUTRAL;
 }
