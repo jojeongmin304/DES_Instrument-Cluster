@@ -3,7 +3,7 @@ import QtQuick 2.15
 Item {
     id: gearRoot
 
-    property string gear: "D"
+    property string gear: ViewModel.driveMode
 
     //색 튜닝
     property color baseColor: "#e8e9ee" //평상시
@@ -30,22 +30,28 @@ Item {
     }
 
     //기어 값이 바뀔 때 하이라이트
-    onGearChanged: flash.restart()
+   // onGearChanged: flash.restart()
+
+    Connections {
+        target: ViewModel
+        function onUpdateDriveMode() {  // 신호 이름 앞에 on + 대문자 시작
+          flash.restart();
+        }
+    }
 
     SequentialAnimation {
         id: flash
-        running: true
         loops: 1
         //즉시 진한 흰색으로
-        PropertyAction { id: propertyAction; target: gearText; property: "color"; value: highlightColor }
+        PropertyAction {target: gearText; property: "color"; value: gearRoot.highlightColor ;}
         //잠깐 유지
-        PauseAnimation { duration: holdMs }
+        PauseAnimation { duration: gearRoot.holdMs }
         // 서서히 연한 색으로 복귀
         ColorAnimation {
             target: gearText
             property: "color"
-            to: baseColor
-            duration: fadeMs
+            to: gearRoot.baseColor
+            duration: gearRoot.fadeMs
             easing.type: Easing.InOutQuad
         }
     }

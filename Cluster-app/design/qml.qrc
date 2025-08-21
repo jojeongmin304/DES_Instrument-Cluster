@@ -12,6 +12,5 @@
 			<file>asset/needle-normal.png</file>
 			<file>asset/RightCircle.png</file>
 			<file>asset/RightOutCircle.png</file>
-			<file>asset/Gear.png</file>
     </qresource>
 </RCC>
