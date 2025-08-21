@@ -16,8 +16,8 @@
 class ViewModel : public QObject {
 	/* QT FRAMEWORK */
 	Q_OBJECT
-	Q_PROPERTY(int capacity READ capacity NOTIFY updateCapacity)
 	Q_PROPERTY(QString driveMode READ driveMode NOTIFY updateDriveMode)
+	Q_PROPERTY(int capacity READ capacity NOTIFY updateCapacity)
 	Q_PROPERTY(int speed READ speed NOTIFY updateSpeed)
 
 	public slots:  
