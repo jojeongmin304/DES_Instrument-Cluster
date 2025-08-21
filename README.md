@@ -5,13 +5,15 @@ This project is a documentation of the fulfilment of the project requirements as
 ## Directory Structure
 
 ```
-DES_Instrument-Cluster/
-├── Arduino/
-│   ├── SpeedSensor_CAN
-|        └── SpeedSensor_CAN.ino
-├── Documentation/
-│   └── architecture.png
-└── README.md
+.
+├── Arduino
+│   ├── LM363_BasicSketch
+│   └── SpeedSensor_CAN
+├── Cluster-app
+│   ├── design
+│   │   └── asset
+│   └── src
+└── Documentation
 ```
 
 ## Getting Started
