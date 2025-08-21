@@ -12,7 +12,7 @@ InstrumentCluster::InstrumentCluster()
 
 	try {
 		_battery = std::make_shared<BatteryMonitor>();
-		_vehicle = std::make_shared<SharedMemory>("vehicle_drive_mode", SIZE_INT);
+		_vehicle = std::make_shared<SharedMemory>("piracer_drive_mode", SIZE_INT);
 	} catch (std::exception& e) {
 		qWarning() << "Fail to load module " << QString::fromStdString(e.what());
 	}
@@ -71,7 +71,7 @@ bool InstrumentCluster::openCan(const std::string& ifname) {
 			return true;
 		}
 		
-		// Instanciate gatewa
+		// Instanciate gatewad
 		_can.emplace_back(new CanGateway(ifname));
 
 		// Instanciate thread and move the gateway worker to thread

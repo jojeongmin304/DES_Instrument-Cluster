@@ -7,7 +7,7 @@ Item {
 
     Image {
         id: backGround
-        source: "../build/Desktop_Qt_6_8_3-Debug/IC_Project/design/asset/BackGround.png"
+        source: "qrc:/asset/BackGround.png"
         anchors.fill: parent
         fillMode: Image.PreserveAspectFit
     }
@@ -19,6 +19,7 @@ Item {
             left: parent.left
             // leftMargin: parent.width * 0.036  // 70/1920 ≈ 0.036
             top: parent.top
+			bottom: parent.bottom
             // topMargin: parent.height * 0.19   // 205/1080 ≈ 0.19
         }
         // Scale the cluster size relative to parent
@@ -35,6 +36,7 @@ Item {
             right: parent.right
             // rightMargin: parent.width * 0.046  // (1920-1027-800)/1920 ≈ 0.046
             top: parent.top
+			bottom: parent.bottom
             // topMargin: parent.height * 0.19    // Same as left cluster
         }
         // Scale the cluster size relative to parent
