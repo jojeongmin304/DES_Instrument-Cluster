@@ -40,7 +40,7 @@ Item {
     Image {
         id: leftOutCircle
         anchors.fill: parent
-        source: "../build/Desktop_Qt_6_8_3-Debug/IC_Project/design/asset/LeftOutCircle.png"
+        source: "qrc:/asset/LeftOutCircle.png"
         fillMode: Image.PreserveAspectFit
     }
 
@@ -51,7 +51,7 @@ Item {
         width: parent.width * 0.61   // 490/800 ≈ 0.61
         height: parent.height * 0.65 // 485/750 ≈ 0.65
         anchors.centerIn: parent
-        source: "../build/Desktop_Qt_6_8_3-Debug/IC_Project/design/asset/LeftCircle.png"
+        source: "qrc:/asset/LeftCircle.png"
         fillMode: Image.PreserveAspectFit
     }
 

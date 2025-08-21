@@ -1,5 +1,7 @@
 #include "SharedMemory.h"
 
+#include <iostream>
+
 SharedMemory::SharedMemory(const std::string& name, size_t size, bool create_mode)
     : shm_name("/" + name), shm_size(size), shm_fd(-1), shm_ptr(nullptr), created_by_this(false) {
     
@@ -72,7 +74,7 @@ void SharedMemory::createSharedMemory() {
 void SharedMemory::connectToSharedMemory() {
     // Connect to existing shared memory
     shm_fd = shm_open(shm_name.c_str(), O_RDWR, 0666);
-    
+
     if (shm_fd == -1) {
         throw std::runtime_error("Failed to open existing shared memory '" + shm_name + "': " + strerror(errno));
     }
