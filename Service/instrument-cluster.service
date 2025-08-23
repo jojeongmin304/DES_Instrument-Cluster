@@ -1,0 +1,22 @@
+[Unit]
+Description=Instrument Cluster Application
+After=multi-user.target piracer-controller.service
+Requires=piracer-controller.service
+
+[Service]
+Type=simple
+User=admin
+Group=admin
+WorkingDirectory=/home/admin
+ExecStart=/home/admin/appIC -nomouse
+Restart=always
+RestartSec=10
+
+#Environment=DISPLAY=:0
+Environment=QT_QPA_PLATFORM=eglfs
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
