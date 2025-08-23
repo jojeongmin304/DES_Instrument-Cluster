@@ -8,7 +8,5 @@ build
 
 # Only for macOS
 .DS_Store
-Makefile
-Dockerfile
 *toolchain*
 include 

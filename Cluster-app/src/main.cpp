@@ -29,8 +29,6 @@ int main(int argc, char *argv[]) {
 
 		if (cluster.openCan("can1")) {
 			cluster.connectCanModel("can1", model, &ViewModel::receiveCanData);
-		} else {
-			qCritical() << "Fail to open can1";
 		}
 		
 		cluster.registerModel("ViewModel", model);

@@ -40,9 +40,6 @@ void ViewModel::receiveTimeout(const std::string& name) {
 }
 
 void ViewModel::receiveCanData(int canID, const QByteArray& data) {
-	// qDebug() << "[ViewModel] Received CAN frame - ID:" << Qt::hex << canID 
-	// 		<< "Data:" << data.toHex(' ') << "Size:" << data.size();
-	
 	switch (canID) {
 		case ID_RPM: {
 			if (data.size() < 2) {
