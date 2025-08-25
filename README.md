@@ -36,7 +36,7 @@ This project is a documentation of the fulfilment of the project requirements as
  
 ## Architecture
 
-![System Architecture](Documentation/Architecture.drawio.png)
+![System Architecture](.github/Architecture.drawio.png)
 
 ### Installation
 
