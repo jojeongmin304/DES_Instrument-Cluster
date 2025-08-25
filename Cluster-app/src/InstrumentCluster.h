@@ -11,7 +11,6 @@
 
 # include <string>
 # include <list>
-# include <vector>
 # include <unordered_map>
 
 # define SIZE_INT 4
@@ -76,12 +75,13 @@ class InstrumentCluster {
 
 		std::unordered_map<std::string, QTimer_ptr> _timers;
 		std::unordered_map<std::string, QThread_ptr> _threads;
-		std::list<u_ptr_d<CanGateway, QObjectDeleter>> _can;
+		std::list<CanGateway_ptr> _can;
 
 		s_ptr<SharedMemory> _vehicle = nullptr;
 		s_ptr<BatteryMonitor> _battery = nullptr;
 
 		bool _validTimer(std::unordered_map<std::string, QTimer_ptr>::iterator, int);
+		void _openCanCreate(const std::string&);
 		void _openCanSetSignals(CanGateway_ptr&, QThread_ptr&, const std::string&);
 		const CanGateway_ptr& _findCan(const std::string&) const;
 };

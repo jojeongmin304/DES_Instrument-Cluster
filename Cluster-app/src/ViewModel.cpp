@@ -20,7 +20,7 @@ ViewModel::ViewModel(QObject *parent)
 
 ViewModel::~ViewModel() {}
 
-/* QT METHODS */
+/* QT SLOTS */
 void ViewModel::receiveTimeout(const std::string& name) {
 	switch (timer_name_id_map.at(name)) {
 		case ID_BATTERY: {
@@ -47,9 +47,9 @@ void ViewModel::receiveCanData(int canID, const QByteArray& data) {
 				break;
 			}
 
-			// Convert RPM to speed using wheel diameter
-			// Speed = (wheel circumference * RPM) / 60 (to get per second)
-			// Result in cm/s as per your original implementation
+			/* Convert RPM to speed using wheel diameter
+			Speed = (wheel circumference * RPM) / 60 (to get per second)
+			Result in cm/s as per your original implementation */
 			int val = static_cast<int>(WHEEL_DIAMETER * PI * static_cast<float>(_int(data, 0)) / 60.0f);
 			if (val != _speed) {
 				_speed = val;

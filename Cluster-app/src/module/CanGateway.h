@@ -66,7 +66,6 @@ class CanGateway: public QObject {
 		explicit CanGateway(const std::string&);
 		~CanGateway();
 		
-		// bool isConnected() const { return status == READY || status == ACTIVE; }
 		const std::string& interface() const { return ifname; }
 		
 	private:
