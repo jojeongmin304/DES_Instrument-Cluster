@@ -48,7 +48,7 @@ This project is a documentation of the fulfilment of the project requirements as
 	- The target architecture of our Rasberry-Pi is **'aarch64(arm64)-linux'**.
 	- If you are already in using of aarch64-linux with Debian, **you don't need anything more than compiler and QT Framework!** Otherwise, there are two options for setting up your build envrionment - **CMake** with sysroot(in case of different OS) and cross-compile toolchain (in case of different architecture), and the **Docker**.
 	- Docker
-		- Thanks to Dockrfile, we can share indentical docker image with any of you for build and we will stick around the Docker way.<p></p>
+		- Thanks to Dockrfile, we can share indentical docker image with any of you for build. So we will stick around the Docker way.<p></p>
 		1. Move the **Dockerfile** and **makefile** (and **toolchain** in case of Intel/AMD) following your architecture (Intel/AMD: x86, ARM/AppleSilicon: no specific suffix) to the Cluster-app directory.
 		2. Type make
 		```sh
