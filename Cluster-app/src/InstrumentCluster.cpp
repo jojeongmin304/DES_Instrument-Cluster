@@ -95,7 +95,7 @@ bool InstrumentCluster::openCan(const std::string& ifname) {
 
 void InstrumentCluster::_openCanCreate(const std::string& ifname) {
 	// Instanciate gatewad worker
-	_can.emplace_back(std::make_unique<CanGateway>(ifname));
+	_can.emplace_back(new CanGateway(ifname));
 
 	// Instanciate thread and move the gateway worker to thread
 	_threads[ifname] = QThread_ptr(std::make_unique<QThread>());
