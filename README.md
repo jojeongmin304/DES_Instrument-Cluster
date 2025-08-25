@@ -45,8 +45,8 @@ This project is a documentation of the fulfilment of the project requirements as
    - Compile and Upload the Arduino code from `Arduino/SpeedSensor_CAN/SpeedSensor_CAN.ino` to your device using the Arduino IDE
 
 2. **InstrumentCluster App Setup**
-	- The target architecture of our Rasberry-Pi is **'aarch64(arm64)-linux / Debian-bookworm'**.
-	- If you are already in using of aarch64-linux, **you don't need anything more than compiler and QT Framework!** Otherwise, there are two options for setting up your build envrionment - **CMake** with sysroot(in case of different OS) and cross-compile toolchain (in case of different architecture), and the **Docker**.
+	- The target architecture of our Rasberry-Pi is **'aarch64(arm64)-linux'**.
+	- If you are already in using of aarch64-linux with Debian, **you don't need anything more than compiler and QT Framework!** Otherwise, there are two options for setting up your build envrionment - **CMake** with sysroot(in case of different OS) and cross-compile toolchain (in case of different architecture), and the **Docker**.
 	- Docker
 		- Thanks to Dockrfile, we can share indentical docker image with any of you for build and we will stick around the Docker way.<p></p>
 		1. Move the **Dockerfile** and **makefile** (and **toolchain** in case of Intel/AMD) following your architecture (Intel/AMD: x86, ARM/AppleSilicon: no specific suffix) to the Cluster-app directory.
@@ -56,21 +56,21 @@ This project is a documentation of the fulfilment of the project requirements as
 		```
 		3. Connect to Rasberry Pi via ssh and run the app (the app name and path is "~/appIC" as default). **Please be sure that the can interface has set  and shared memory between pi controller and this app is valid.** 
 		```sh
-		~/appIC or ./appIC
+		~/appIC
 	- CMake
-		- If you choose to use the CMake, you must be aware of - what filesystem is and so why the sysroot is needed, what cmake and cross-compie toolchain does.. I attached useful link to build with CMake. [[Cross-Compile Qt 6]](https://wiki.qt.io/Cross-Compile_Qt_6_for_Raspberry_Pi) - Although it's about installation of the Qt6 with cross-compile, you can reach the whole concept of the cmake cross-compile.
+		- If you choose to use the CMake, you must be aware of - what filesystem is and so why the sysroot is needed, what cmake and cross-compie toolchain does.. I attached a useful link for build with CMake. [[Cross-Compile Qt 6]](https://wiki.qt.io/Cross-Compile_Qt_6_for_Raspberry_Pi) - Although it's about installation of the Qt6 with cross-compile, you can reach out the whole concept of the cmake cross-compile.
 
 3. **Systemd Service**
    - Copy `Service/*.service` files to `/etc/systemd/system/`.
-   - Enable and start the services:
+   - Enable and start the each service:
      ```sh
-     sudo systemctl enable des_instrument
-     sudo systemctl start des_instrument
+     sudo systemctl enable <module.service>
+     sudo systemctl start <module.service>
      ```
 
 ### Usage
 
-- On boot, the systemd service will start the can interface, script for robot control, and the instrument cluster app.
+- On boot, the systemd service will start the CAN interface, script for robot control, and the instrument cluster app.
 - Arduino firmware will continuously read sensor data and send messages over CAN bus.
 
 ## Contributing

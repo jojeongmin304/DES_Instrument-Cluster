@@ -8,5 +8,4 @@ build
 
 # Only for macOS
 .DS_Store
-*toolchain*
 include 
