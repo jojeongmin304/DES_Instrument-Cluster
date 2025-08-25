@@ -9,7 +9,7 @@
 /* CON & DESTRUCTOR */
 InstrumentCluster::InstrumentCluster()
 	: _engine(std::make_unique<QQmlApplicationEngine>()) {
-
+		
 	try {
 		_battery = std::make_shared<BatteryMonitor>();
 		_vehicle = std::make_shared<SharedMemory>("piracer_drive_mode", SIZE_INT);
@@ -29,7 +29,6 @@ void InstrumentCluster::setTimer(const std::string& name) {
 	auto it = _timers.find(name);
 	if (_validTimer(it, 0)) {
 		qDebug() << "[IC] Setting timer for" << QString::fromStdString(name);
-		// Create QTimer with unique_ptr to avoid copy/move issues
 		_timers[name] = std::make_unique<QTimer>();
 	}
 }
@@ -49,6 +48,8 @@ void InstrumentCluster::connectTimerModel(const std::string& name, int time, Vie
 		QObject::connect(it->second.get(), &QTimer::timeout, &model, [&model, slot, name]() {
 			(model.*slot)(name);
 		});
+
+		// Let the timer begin :)
 		it->second->start(time);
 	}
 }
@@ -72,14 +73,7 @@ bool InstrumentCluster::openCan(const std::string& ifname) {
 			return true;
 		}
 		
-		// Instanciate gatewad
-		_can.emplace_back(new CanGateway(ifname));
-
-		// Instanciate thread and move the gateway worker to thread
-		_threads[ifname] = QThread_ptr(new QThread);
-		_can.back()->moveToThread(_threads[ifname].get());
-
-		// Set signals
+		_openCanCreate(ifname);
 		_openCanSetSignals(_can.back(), _threads[ifname], ifname);
 
 		// Let the worker begin :)
@@ -99,8 +93,18 @@ bool InstrumentCluster::openCan(const std::string& ifname) {
 	}
 }
 
+void InstrumentCluster::_openCanCreate(const std::string& ifname) {
+	// Instanciate gatewad worker
+	_can.emplace_back(std::make_unique<CanGateway>(ifname));
+
+	// Instanciate thread and move the gateway worker to thread
+	_threads[ifname] = QThread_ptr(std::make_unique<QThread>());
+	_can.back()->moveToThread(_threads[ifname].get());
+}
+
 void InstrumentCluster::_openCanSetSignals(InstrumentCluster::CanGateway_ptr& gateway,
 	InstrumentCluster::QThread_ptr& thread, const std::string& ifname) {
+		
 	// Connect thread management signals
 	QObject::connect(thread.get(), &QThread::started, gateway.get(), &CanGateway::start);
 	QObject::connect(gateway.get(), &CanGateway::finished, thread.get(), &QThread::quit);
@@ -157,18 +161,19 @@ void InstrumentCluster::closeCan(const std::string& ifname) {
 
 void InstrumentCluster::connectCanModel(const std::string& interface, ViewModel& model,
 	void (ViewModel::*&& slot)(int, const QByteArray&)) {
+
 	const auto& gateway = _findCan(interface);
 	if (!gateway) {
 		qWarning() << "No gateway found for CAN interface:" << QString::fromStdString(interface);
 		return;
 	}
 	
-	// Connect the single SIGNAL to ViewModel's SLOT
 	QObject::connect(gateway.get(), &CanGateway::newData, &model, slot, Qt::QueuedConnection);
 }
 
 const InstrumentCluster::CanGateway_ptr&
-InstrumentCluster::_findCan(const std::string& interface) const {
+	InstrumentCluster::_findCan(const std::string& interface) const {
+
 	for (const auto& gateway : _can) {
 		if (gateway && gateway->ifname == interface) {
 			return gateway;

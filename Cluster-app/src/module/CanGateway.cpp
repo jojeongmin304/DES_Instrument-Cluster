@@ -22,7 +22,7 @@ CanGateway::~CanGateway() {
     }
 }
 
-/* QT METHODS */
+/* QT SLOTS */
 void CanGateway::start() {
 	if (status != READY) {
 		qDebug() << "[CAN] Interface not ready:" << QString::fromStdString(ifname);
@@ -41,7 +41,7 @@ void CanGateway::start() {
         if (read(_pipe.socket, &frame, sizeof(struct can_frame)) > 0)
 			_startHandleData(frame);
 		else
-            QThread::msleep(10);
+            QThread::msleep(INTERVAL);
     }
 
 	// Processing loop finished

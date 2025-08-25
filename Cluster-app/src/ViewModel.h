@@ -4,11 +4,11 @@
 # include "BatteryMonitor.h"
 # include "SharedMemory.h"
 
-# include <unordered_map>
-
 # include <QObject>
 # include <QTimer>
 # include <QByteArray>
+
+# include <unordered_map>
 
 # define WHEEL_DIAMETER 6.8 // cm
 # define PI 3.1415
