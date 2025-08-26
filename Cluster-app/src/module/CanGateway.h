@@ -58,15 +58,12 @@ class CanGateway: public QObject {
 			}
 		};
 
-		std::string ifname;
+		const std::string ifname;
 		int status; 
 
 		CanGateway() = delete;
-		explicit CanGateway(QObject *parent = nullptr);
-		explicit CanGateway(const std::string&);
+		CanGateway(const std::string& ifname);
 		~CanGateway();
-		
-		const std::string& interface() const { return ifname; }
 		
 	private:
 		struct can_pipe _pipe;

@@ -6,9 +6,6 @@
 #include <QDebug>
 
 /* CON & DESTRUNTOR */
-CanGateway::CanGateway(QObject *parent)
-	: QObject(parent), status(INIT) {}
-
 CanGateway::CanGateway(const std::string& interface)
 	: QObject(nullptr), ifname(interface), status(INIT) {
 	_init();
