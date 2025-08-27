@@ -1,4 +1,3 @@
-
 # Minimum version of CMake required
 cmake_minimum_required(VERSION 3.16)
 
@@ -6,7 +5,7 @@ cmake_minimum_required(VERSION 3.16)
 project(IC_Project VERSION 0.1 LANGUAGES CXX)
 
 # Target and directory path variables
-set(TARGET_NAME appIC_new)
+set(TARGET_NAME appIC)
 set(DIR_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(DIR_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(DIR_DESIGN ./design)
@@ -31,7 +30,11 @@ qt_add_executable(${TARGET_NAME}
     ${DIR_SRC}/main.cpp
 	${DIR_SRC}/InstrumentCluster.cpp
     ${DIR_SRC}/ViewModel.cpp
-    ${DIR_SRC}/CANGateway.cpp
+    ${DIR_SRC}/module/CanGateway.cpp
+	${DIR_SRC}/module/BatteryMonitor.cpp
+	${DIR_SRC}/module/BatterySoc.cpp
+	${DIR_SRC}/module/INA219.cpp
+	${DIR_SRC}/module/SharedMemory.cpp
 
 	# ADDED: Directly add resource files to the executable.
 	# This is the most reliable way to ensure they are compiled in.
@@ -58,19 +61,21 @@ qt_add_qml_module(${TARGET_NAME}
 		${DIR_DESIGN}/asset/needle-normal.png
 		${DIR_DESIGN}/asset/RightCircle.png
 		${DIR_DESIGN}/asset/RightOutCircle.png
-                ${DIR_DESIGN}/asset/Gear.png
+		${DIR_DESIGN}/asset/Gear.png
     SOURCES
-        ${DIR_SRC}/InstrumentCluster.h ${DIR_SRC}/InstrumentCluster.cpp
-		${DIR_SRC}/ViewModel.h ${DIR_SRC}/ViewModel.cpp
-		${DIR_SRC}/BatteryMonitor.h ${DIR_SRC}/BatteryMonitor.cpp
-		${DIR_SRC}/BatterySoc.h ${DIR_SRC}/BatterySoc.cpp
-		${DIR_SRC}/INA219.h ${DIR_SRC}/INA219.cpp
-        ${DIR_SRC}/CANGateway.h ${DIR_SRC}/CANGateway.cpp
+        ${DIR_SRC}/InstrumentCluster.h		${DIR_SRC}/InstrumentCluster.cpp
+		${DIR_SRC}/ViewModel.h				${DIR_SRC}/ViewModel.cpp
+        ${DIR_SRC}/module/CanGateway.h		${DIR_SRC}/module/CanGateway.cpp
+		${DIR_SRC}/module/BatteryMonitor.h	${DIR_SRC}/module/BatteryMonitor.cpp
+		${DIR_SRC}/module/BatterySoc.h		${DIR_SRC}/module/BatterySoc.cpp
+		${DIR_SRC}/module/INA219.h			${DIR_SRC}/module/INA219.cpp
+		${DIR_SRC}/module/SharedMemory.h	${DIR_SRC}/module/SharedMemory.cpp
 )
 
 # Tell CMake where to find our own header files and the json.hpp header.
 target_include_directories(${TARGET_NAME} PRIVATE
     ${DIR_SRC}
+	${DIR_SRC}/module
     ${DIR_INCLUDE}
     ${DIR_DESIGN}  # Added design directory for QML files
 )

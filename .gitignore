@@ -8,14 +8,3 @@ build
 
 # Only for macOS
 .DS_Store
-Makefile
-Dockerfile
-*toolchain*
-include 
-*.bat
-*.log
-*.check_cache
-Cluster-app/build-wsl-qt68/CMakeFiles/3.22.1/CompilerIdCXX/CMakeCXXCompilerId.cpp
-Cluster-app/build-wsl-qt68/CMakeFiles/3.22.1/CompilerIdCXX/a.out
-Cluster-app/build-wsl-qt68/CMakeFiles/3.22.1/CMakeSystem.cmake
-Cluster-app/build-wsl-qt68/CMakeCache.txt

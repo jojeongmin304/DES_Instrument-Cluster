@@ -8,19 +8,27 @@
 
 /* CON & DESTRUCTOR */
 InstrumentCluster::InstrumentCluster()
-	: _engine(std::make_unique<QQmlApplicationEngine>()) {}
+	: _engine(std::make_unique<QQmlApplicationEngine>()) {
+		
+	try {
+		_battery = std::make_shared<BatteryMonitor>();
+		_vehicle = std::make_shared<SharedMemory>("piracer_drive_mode", SIZE_INT);
+	} catch (std::exception& e) {
+		qWarning() << "Fail to load module " << QString::fromStdString(e.what());
+	}
+}
 
 InstrumentCluster::~InstrumentCluster() {
 	for (const auto& pair : _threads) {
 		closeCan(pair.first);
 	}
 }
- 
+
 /* METHODS - Timer */
 void InstrumentCluster::setTimer(const std::string& name) {
 	auto it = _timers.find(name);
 	if (_validTimer(it, 0)) {
-		// Create QTimer with unique_ptr to avoid copy/move issues
+		qDebug() << "[IC] Setting timer for" << QString::fromStdString(name);
 		_timers[name] = std::make_unique<QTimer>();
 	}
 }
@@ -34,24 +42,26 @@ void InstrumentCluster::removeTimer(const std::string& name) {
 
 void InstrumentCluster::connectTimerModel(const std::string& name, int time, ViewModel& model,
 	void (ViewModel::*&& slot)(const std::string&)) {
+
 	auto it = _timers.find(name);
 	if (_validTimer(it, 1)) {
-		// Fix lambda syntax - call the member function pointer correctly
 		QObject::connect(it->second.get(), &QTimer::timeout, &model, [&model, slot, name]() {
 			(model.*slot)(name);
 		});
+
+		// Let the timer begin :)
 		it->second->start(time);
 	}
 }
 
 bool InstrumentCluster::_validTimer(std::unordered_map<std::string, std::unique_ptr<QTimer>>::iterator it, int flag) {
 	if (flag == 0 && it != _timers.end()) {
-		qDebug() << "[IC] Timer already exist for name " << QString::fromStdString(it->first);
+		qDebug() << "[IC] Timer already exist";
 		return false;
 	} else if (flag == 1 && it == _timers.end()) {
-		qDebug() << "[IC] Timer not found for name " << QString::fromStdString(it->first);
+		qDebug() << "[IC] Timer not found";
 		return false;
-	}      
+	}
 	return true;
 }
 
@@ -63,15 +73,8 @@ bool InstrumentCluster::openCan(const std::string& ifname) {
 			return true;
 		}
 		
-		// Instanciate gatewa
-		_gateways.emplace_back(new CANGateway(ifname));
-
-		// Instanciate thread and move the gateway worker to thread
-		_threads[ifname] = QThread_ptr(new QThread);
-		_gateways.back()->moveToThread(_threads[ifname].get());
-
-		// Set signals
-		_openCanSetSignals(_gateways.back(), _threads[ifname], ifname);
+		_openCanCreate(ifname);
+		_openCanSetSignals(_can.back(), _threads[ifname], ifname);
 
 		// Let the worker begin :)
 		_threads[ifname]->start();
@@ -90,22 +93,32 @@ bool InstrumentCluster::openCan(const std::string& ifname) {
 	}
 }
 
-void InstrumentCluster::_openCanSetSignals(InstrumentCluster::CANGateway_ptr& gateway,
+void InstrumentCluster::_openCanCreate(const std::string& ifname) {
+	// Instanciate gatewad worker
+	_can.emplace_back(new CanGateway(ifname));
+
+	// Instanciate thread and move the gateway worker to thread
+	_threads[ifname] = QThread_ptr(std::make_unique<QThread>());
+	_can.back()->moveToThread(_threads[ifname].get());
+}
+
+void InstrumentCluster::_openCanSetSignals(InstrumentCluster::CanGateway_ptr& gateway,
 	InstrumentCluster::QThread_ptr& thread, const std::string& ifname) {
+		
 	// Connect thread management signals
-	QObject::connect(thread.get(), &QThread::started, gateway.get(), &CANGateway::start);
-	QObject::connect(gateway.get(), &CANGateway::finished, thread.get(), &QThread::quit);
+	QObject::connect(thread.get(), &QThread::started, gateway.get(), &CanGateway::start);
+	QObject::connect(gateway.get(), &CanGateway::finished, thread.get(), &QThread::quit);
 
 	// Connect status signals
-	QObject::connect(gateway.get(), &CANGateway::connected, [ifname]() {
+	QObject::connect(gateway.get(), &CanGateway::connected, [ifname]() {
 		qInfo() << "[IC] CAN Gateway activated:" << QString::fromStdString(ifname);
 	});
-	QObject::connect(gateway.get(), &CANGateway::disconnected, [ifname]() {
+	QObject::connect(gateway.get(), &CanGateway::disconnected, [ifname]() {
 		qInfo() << "[IC] CAN Gateway deactivated:" << QString::fromStdString(ifname);
 	});
 	
 	// Connect error handling
-	QObject::connect(gateway.get(), &CANGateway::error, [ifname](const QString& error) {
+	QObject::connect(gateway.get(), &CanGateway::error, [ifname](const QString& error) {
 		qCritical() << "[IC] CAN Gateway error on" << QString::fromStdString(ifname) << ":" << error;
 	});
 }
@@ -139,7 +152,7 @@ void InstrumentCluster::closeCan(const std::string& ifname) {
 		_threads.erase(it);
 	}
 
-	_gateways.remove_if([&ifname](const CANGateway_ptr& ptr) {
+	_can.remove_if([&ifname](const CanGateway_ptr& ptr) {
 		return ptr && ptr->ifname == ifname;
 	});
 
@@ -148,26 +161,26 @@ void InstrumentCluster::closeCan(const std::string& ifname) {
 
 void InstrumentCluster::connectCanModel(const std::string& interface, ViewModel& model,
 	void (ViewModel::*&& slot)(int, const QByteArray&)) {
+
 	const auto& gateway = _findCan(interface);
 	if (!gateway) {
 		qWarning() << "No gateway found for CAN interface:" << QString::fromStdString(interface);
 		return;
 	}
 	
-	// Connect the single SIGNAL to ViewModel's SLOT
-	QObject::connect(gateway.get(), &CANGateway::newData, &model, slot, Qt::QueuedConnection);
-	qInfo() << "[IC] Connected CAN Gateway" << QString::fromStdString(interface) << "to ViewModel.";
+	QObject::connect(gateway.get(), &CanGateway::newData, &model, slot, Qt::QueuedConnection);
 }
 
-const InstrumentCluster::CANGateway_ptr&
-InstrumentCluster::_findCan(const std::string& interface) const {
-	for (const auto& gateway : _gateways) {
+const InstrumentCluster::CanGateway_ptr&
+	InstrumentCluster::_findCan(const std::string& interface) const {
+
+	for (const auto& gateway : _can) {
 		if (gateway && gateway->ifname == interface) {
 			return gateway;
 		}
 	}
 	// Return a null reference - this will be checked by the caller
-	static CANGateway_ptr nullPtr;
+	static CanGateway_ptr nullPtr;
 	return nullPtr;
 }
 

@@ -29,7 +29,7 @@ enum status_e {
 	STOP
 };
 
-class CANGateway: public QObject {
+class CanGateway: public QObject {
 	/* QT FRAMEWORK */
     Q_OBJECT
 
@@ -58,16 +58,12 @@ class CANGateway: public QObject {
 			}
 		};
 
-		std::string ifname;
+		const std::string ifname;
 		int status; 
 
-		CANGateway() = delete;
-		explicit CANGateway(QObject *parent = nullptr);
-		explicit CANGateway(const std::string&);
-		~CANGateway();
-		
-		// bool isConnected() const { return status == READY || status == ACTIVE; }
-		const std::string& interface() const { return ifname; }
+		CanGateway() = delete;
+		CanGateway(const std::string& ifname);
+		~CanGateway();
 		
 	private:
 		struct can_pipe _pipe;

@@ -1,12 +1,9 @@
 import QtQuick 2.15
 
 Item {
-    id: gear
+    id: gearRoot
 
-    width: gearBackground.width
-    height: gearBackground.height
-
-    property string gear: "D"
+    property string gear: ViewModel.driveMode
 
     //색 튜닝
     property color baseColor: "#e8e9ee" //평상시
@@ -16,10 +13,7 @@ Item {
 
     Image {
         id: gearBackground
-        width: 450
-        height: 380
-        anchors.centerIn: parent
-
+        anchors.fill: parent
         source: "qrc:/asset/Gear.png"
         fillMode: Image.PreserveAspectFit
     }
@@ -27,31 +21,37 @@ Item {
     Text {
         id: gearText
         anchors.centerIn: parent
-        color: baseColor
-        text: gear  //기어 표시
-        font.pixelSize: parent.height * 0.2
+        color: gearRoot.baseColor
+        text: gearRoot.gear  //기어 표시
+        font.pixelSize: parent.height * 0.3
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.bold: false
     }
 
     //기어 값이 바뀔 때 하이라이트
-    onGearChanged: flash.restart()
+   // onGearChanged: flash.restart()
+
+    Connections {
+        target: ViewModel
+        function onUpdateDriveMode() {  // 신호 이름 앞에 on + 대문자 시작
+          flash.restart();
+        }
+    }
 
     SequentialAnimation {
         id: flash
-        running: false
         loops: 1
         //즉시 진한 흰색으로
-        PropertyAction { target: gearText; property: "color"; value: highlightColor }
+        PropertyAction {target: gearText; property: "color"; value: gearRoot.highlightColor ;}
         //잠깐 유지
-        PauseAnimation { duration: holdMs }
+        PauseAnimation { duration: gearRoot.holdMs }
         // 서서히 연한 색으로 복귀
         ColorAnimation {
             target: gearText
             property: "color"
-            to: baseColor
-            duration: fadeMs
+            to: gearRoot.baseColor
+            duration: gearRoot.fadeMs
             easing.type: Easing.InOutQuad
         }
     }
